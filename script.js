@@ -247,7 +247,8 @@ function spin() {
 }
 
 function simulateSpins() {
-  const count = parseInt(document.getElementById("simCountInput").value.trim(), 10);
+  const input = document.getElementById("simCountInput");
+  const count = parseInt(input.value.trim(), 10);
   if (isNaN(count) || count < 1) {
     showMessage("⚠️ Enter a valid number of simulations.");
     return;
@@ -259,15 +260,17 @@ function simulateSpins() {
     results[name] = (results[name] || 0) + 1;
   }
 
-  const lines = Object.entries(results)
+  const output = Object.entries(results)
     .sort((a, b) => b[1] - a[1])
-    .map(([name, times]) => {
-      const percent = ((times / count) * 100).toFixed(2);
-      return `${name}: ${times} (${percent}%)`;
-    });
+    .map(([name, num]) => {
+      const percent = ((num / count) * 100).toFixed(2);
+      return `${name}: ${num} (${percent}%)`;
+    })
+    .join("\n");
 
-  document.getElementById("simResultBox").textContent = lines.join("\n");
+  document.getElementById("simResultBox").textContent = output;
 }
+
 
 
 document.addEventListener('keydown', e => {
