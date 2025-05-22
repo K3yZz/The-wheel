@@ -25,8 +25,12 @@ function showMessage(text) {
 function submitEntry() {
   const name = document.getElementById("nameInput").value.trim();
   let weightInput = document.getElementById("weightInput").value.trim();
-  let weight = parseInt(weightInput, 10);
-  if (isNaN(weight) || weight < 1) weight = 1;
+  let weight = parseFloat(weightInput);
+  if (isNaN(weight) || weight <= 0) {
+    showMessage("⚠️ Enter a weight greater than 0.");
+    return;
+  }
+
   const color = document.getElementById("colorInput").value || "#cccccc";
 
   if (!name) {
@@ -89,7 +93,7 @@ function updateUI() {
       return `
         <li>
           <span style="display:inline-block;width:15px;height:15px;background:${e.color};border-radius:50%;margin-right:5px;"></span>
-          ${e.name} (weight: ${e.weight}, ${percent}%)
+          ${e.name} (weight: ${e.weight.toFixed(2)}, ${percent}%)
           <span class="entry-buttons">
             <button onclick="editEntry(${i})">Edit</button>
             <button onclick="deleteEntry(${i})">Delete</button>
@@ -200,13 +204,14 @@ function getTargetAngle(name) {
 
 
 function pickRandomEntry() {
-  const pool = [];
-  entries.forEach(e => {
-    for (let i = 0; i < e.weight; i++) {
-      pool.push(e.name);
-    }
-  });
-  return pool[Math.floor(Math.random() * pool.length)];
+  const totalWeight = entries.reduce((sum, e) => sum + e.weight, 0);
+  const rand = Math.random() * totalWeight;
+  let accum = 0;
+  for (const e of entries) {
+    accum += e.weight;
+    if (rand < accum) return e.name;
+  }
+  return entries[entries.length - 1].name;
 }
 
 function spin() {
