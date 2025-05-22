@@ -89,7 +89,7 @@ function updateUI() {
   const listDiv = document.getElementById("entriesList");
   listDiv.innerHTML = "<strong>Entries:</strong><ul>" +
     entries.map((e, i) => {
-      const percent = ((e.weight / totalWeight) * 100).toFixed(1);
+      const percent = ((e.weight / totalWeight) * 100).toFixed(5);
       return `
         <li>
           <span style="display:inline-block;width:15px;height:15px;background:${e.color};border-radius:50%;margin-right:5px;"></span>
