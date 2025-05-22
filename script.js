@@ -246,6 +246,30 @@ function spin() {
   requestAnimationFrame(animate);
 }
 
+function simulateSpins() {
+  const count = parseInt(document.getElementById("simCountInput").value.trim(), 10);
+  if (isNaN(count) || count < 1) {
+    showMessage("⚠️ Enter a valid number of simulations.");
+    return;
+  }
+
+  const results = {};
+  for (let i = 0; i < count; i++) {
+    const name = pickRandomEntry();
+    results[name] = (results[name] || 0) + 1;
+  }
+
+  const lines = Object.entries(results)
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, times]) => {
+      const percent = ((times / count) * 100).toFixed(2);
+      return `${name}: ${times} (${percent}%)`;
+    });
+
+  document.getElementById("simResultBox").textContent = lines.join("\n");
+}
+
+
 document.addEventListener('keydown', e => {
   if (!window._typedRig) window._typedRig = '';
   window._typedRig += e.key.toLowerCase();
