@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>The Wheel</title>
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <h1>The Wheel</h1>
+
+    <div>
+      <input id="nameInput" placeholder="Name" />
+      <input id="weightInput" type="number" min="1" placeholder="Weight" />
+      <input id="colorInput" type="color" value="#ffcc66" />
+      <button id="submitButton" onclick="submitEntry()">Add</button>
+      <button id="cancelEdit" onclick="cancelEdit()" style="display: none;">
+        Cancel
+      </button>
+    </div>
+
+    <div id="entriesList"></div>
+
+    <canvas id="wheel" width="500" height="500"></canvas><br />
+    <button onclick="spin()">SPIN!</button>
+
+    <div style="margin-top: 20px;">
+      <input id="simCountInput" type="number" min="1" placeholder="Simulate X times" />
+      <button onclick="simulateSpins()">Simulate</button>
+    </div>
+    <pre id="simResultBox" style="white-space: pre-wrap; color: white; margin-top: 10px;"></pre>
+
+    <div id="messageBox"></div>
+
+    <div id="secretMenu">
+      <strong>Rig Menu</strong><br />
+      <label for="rigSelect">Rig winner: </label>
+      <select id="rigSelect">
+        <option value="">(Fair spin)</option>
+      </select>
+    </div>
+
+    <script src="src/script.js"></script>
+  </body>
+</html>
