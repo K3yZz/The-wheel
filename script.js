@@ -253,30 +253,36 @@ function spin() {
 
 function simulateSpins() {
   const input = document.getElementById("simCountInput");
-  const count = parseInt(input.value.trim(), 10);
-  if (isNaN(count) || count < 1) {
+  let count = parseInt(input.value.trim(), 10);
+  if (isNaN(count) || count <= 0) {
     showMessage("⚠️ Enter a valid number of simulations.");
     return;
   }
 
   const results = {};
-  for (let i = 0; i < count; i++) {
-    const name = pickRandomEntry();
-    results[name] = (results[name] || 0) + 1;
+  const batchSize = 100_000_000;
+
+  while (count > 0) {
+    const spinsThisBatch = Math.min(batchSize, count);
+    for (let i = 0; i < spinsThisBatch; i++) {
+      const name = pickRandomEntry();
+      results[name] = (results[name] || 0) + 1;
+    }
+    count -= spinsThisBatch;
   }
+
+  const total = Object.values(results).reduce((a, b) => a + b, 0);
 
   const output = Object.entries(results)
     .sort((a, b) => b[1] - a[1])
     .map(([name, num]) => {
-      const percent = ((num / count) * 100).toFixed(2);
+      const percent = ((num / total) * 100).toFixed(5);
       return `${name}: ${num} (${percent}%)`;
     })
     .join("\n");
 
   document.getElementById("simResultBox").textContent = output;
 }
-
-
 
 document.addEventListener('keydown', e => {
   if (!window._typedRig) window._typedRig = '';
