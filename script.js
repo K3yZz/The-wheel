@@ -89,7 +89,7 @@ function updateUI() {
   const listDiv = document.getElementById("entriesList");
   listDiv.innerHTML = "<strong>Entries:</strong><ul>" +
     entries.map((e, i) => {
-      const percent = ((e.weight / totalWeight) * 100).toFixed(5);
+      const percent = ((e.weight / totalWeight) * 100).toFixed(3);
       return `
         <li>
           <span style="display:inline-block;width:15px;height:15px;background:${e.color};border-radius:50%;margin-right:5px;"></span>
@@ -276,7 +276,7 @@ function simulateSpins() {
   const output = Object.entries(results)
     .sort((a, b) => b[1] - a[1])
     .map(([name, num]) => {
-      const percent = ((num / total) * 100).toFixed(5);
+      const percent = ((num / total) * 100).toFixed(3);
       return `${name}: ${num} (${percent}%)`;
     })
     .join("\n");
